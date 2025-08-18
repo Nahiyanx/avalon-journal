@@ -5,8 +5,12 @@
 
         <!-- Static Categories -->
         <div class="mb-4">
-            <span class="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-full text-sm">Technology</span>
-            <span class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm">Lifestyle</span>
+            @foreach ($post->categories as $category)
+                <a href="{{ route('categories.show', $category) }}" 
+                class="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-full text-sm hover:bg-yellow-300 mr-1">
+                    {{ $category->name }}
+                </a>
+            @endforeach
         </div>
 
         <p class="text-lg leading-relaxed whitespace-pre-line">{{ $post->body }}</p>

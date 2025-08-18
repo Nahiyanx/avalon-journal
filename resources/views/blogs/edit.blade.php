@@ -8,6 +8,17 @@
             <label for="title" class="font-bold">Title</label>
             <input type="text" name="title" value="{{ old('title', $post->title) }}" class="bg-white/40 px-4 py-2 rounded-lg mt-2 w-full">
 
+            <label for="categories" class="font-bold mt-4">Category</label>
+            <div class="bg-white/40 px-4 py-2 rounded-lg mt-2">
+                <select name="categories[]" id="categories" class="w-full" multiple>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{ in_array($category->id, old('categories', $post->categories->pluck('id')->toArray())) ? 'selected' : '' }}>{{$category->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <h3>Hold CTRL to select multiple categories (For Windows)</h3>
+            <br>
+
             <label for="body" class="font-bold mt-4">Blog Description</label>
             <textarea name="body" rows="10" class="bg-white/40 px-4 py-2 rounded-lg mt-2 w-full">{{ old('body', $post->body) }}</textarea>
 

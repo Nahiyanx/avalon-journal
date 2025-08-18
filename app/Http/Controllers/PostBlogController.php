@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,10 @@ class PostBlogController extends Controller
      */
     public function index()
     {
-        return view('blogs.create');
+        $posts = Post::with('user')
+        ->latest()
+        ->cursorPaginate(3);
+        return view('blogs.index',['posts' => $posts]);
     }
 
     /**
@@ -23,7 +27,8 @@ class PostBlogController extends Controller
      */
     public function create()
     {
-        return view('blogs.create');
+        $categories = Category::all();
+        return view('blogs.create', compact('categories'));
     }
 
     /**
@@ -35,11 +40,20 @@ class PostBlogController extends Controller
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string'],
+            'categories' => ['required','array'],
         ]);
 
         $data['user_id'] = Auth::id();
 
-        Post::create($data);
+        $post = Post::create([
+            'title' => $request->title,
+            'body' =>  $request->body,
+            'user_id' => Auth::id(),
+        ]);
+
+        if (!empty($data['categories'])) {
+            $post->categories()->attach($request->categories);
+        }
 
         return redirect('/');
 
@@ -50,6 +64,7 @@ class PostBlogController extends Controller
      */
     public function show(Post $post)
     {
+        $post->load('categories');
         return view('blogs.show', compact('post'));
     }
 
@@ -60,8 +75,10 @@ class PostBlogController extends Controller
     {   
         if (auth()->id() !== $post->user_id) {
             abort(403);
-    }
-        return view('blogs.edit', compact('post'));   
+        }
+
+        $categories = Category::all();
+        return view('blogs.edit', compact('post','categories'));   
     }
 
     /**
@@ -70,17 +87,21 @@ class PostBlogController extends Controller
     public function update(Request $request, Post $post)
     {
         if (auth()->id() !== $post->user_id) {
-        abort(403);
+            abort(403);
         }
         $validated = $request->validate([
-        'title' => 'required|string|max:255',
-        'body' => 'required|string',
-    ]);
+            'title' => 'required|string|max:255',
+            'body' => 'required|string',
+            'categories' => 'required|array',
+        ]);
 
-        $post->update($validated);
-
-        return redirect('/')->with('success', 'Post updated successfully!');
         
+        $post->update([
+            'title' => $request->title,
+            'body' =>  $request->body
+        ]);
+        $post->categories()->sync($request->categories);
+        return redirect('/')->with('success', 'Post updated successfully!');
     }
 
     /**
@@ -96,4 +117,24 @@ class PostBlogController extends Controller
         $post->delete();
         return redirect('/')->with('success', 'Post deleted successfully!');
     }   
+
+    public function search(Request $request) {
+
+        $query = $request->input('query');
+
+        $posts = Post::where('title', 'like', '%' . $query . '%')
+                    ->latest()
+                    ->cursorPaginate(4)
+                    ->withQueryString();
+
+        return view('search', compact('posts', 'query'));
+
+
+    }
+
+
+
+
+
 }
+
