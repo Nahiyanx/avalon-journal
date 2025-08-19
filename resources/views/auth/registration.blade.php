@@ -3,6 +3,7 @@
         @csrf
         <div class="flex flex-col items-center mt-20 pl-15">
             <div class="bg-white/20 px-30 py-10 rounded-lg flex flex-col text-black">
+                <h1 class="text-3xl font-bold mb-6 self-center">Register</h1>
                 <input class=" bg-white/40 px-4 py-2 rounded-lg text-left" type="text" name="name" placeholder="Username">
                 @error('name')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>

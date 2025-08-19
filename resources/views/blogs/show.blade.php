@@ -18,5 +18,24 @@
         <div class="mt-6">
             <a href="{{ url()->previous() }}" class="text-blue-500 hover:underline">← Back</a>
         </div>
+        
+        <div class="mt-8 bg-black/20 p-2 rounded-lg">
+            <h2 class="text-xl font-bold mb-4">Comments</h2>
+            @foreach($post->comments as $comment)
+                <div class="mb-4 p-3 border rounded-lg bg-gray-200">
+                    <p class="text-gray-800">{{ $comment->body }}</p>
+                    <small class="text-gray-500">By {{ $comment->user->name }} | {{ $comment->created_at->diffForHumans() }}</small>
+                </div>
+            @endforeach
+            @auth
+                <form method="POST" action="{{ route('comments.store', $post) }}">
+                    @csrf
+                    <textarea name="body" rows="3" class="w-full border rounded-lg p-2 mb-2" placeholder="Write a comment..."></textarea>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Post Comment</button>
+                </form>
+            @else
+                <p class="text-gray-600">Please <a href="{{ route('login') }}" class="text-blue-500">login</a> to comment.</p>
+            @endauth
+        </div>
     </div>
 </x-layout>

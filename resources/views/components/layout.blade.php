@@ -15,9 +15,16 @@
     <div class="px-6">
         <nav class="flex justify-between items-center border-b-2 border-white/50 text-[20px] py-4">
             <div>
-                <a href="/">
-                    <img src="" alt="Avalon Journal" class="font-oswald font-bold hover:text-yellow-400 transition-colors duration-300">
-                </a>
+                @auth
+                    <a href="/">
+                    <img src="" alt="Avalon Journal" class="font-oswald font-bold hover:text-yellow-400 transition-colors duration-300 mr-39">
+                    </a>
+                @endauth
+                @guest
+                    <a href="/">
+                        <img src="" alt="Avalon Journal" class="font-oswald font-bold hover:text-yellow-400 transition-colors duration-300">
+                    </a>
+                @endguest
             </div>
             <div class="space-x-6 font-bold">
                 <a href="/" class="hover:bg-black/30 hover:text-yellow-400 transition-colors duration-300 rounded p-1">Home</a>
@@ -30,9 +37,8 @@
                     <a href="/register" class="bg-black p-1 rounded-md text-white hover:bg-black/30 hover:text-yellow-400 transition-colors duration-300">Register</a>
                 @endguest
                 @auth
-
                     <span class="text-yellow-400">Hello, {{Auth::user()->name}}</span>
-                    <a href="postBlog" class="bg-black p-1 rounded-md text-white hover:bg-black/30 hover:text-yellow-400 transition-colors duration-300">Post A Blog</a>
+                    <a href="{{ url('/postBlog') }}"  class="bg-black p-1 rounded-md text-white hover:bg-black/30 hover:text-yellow-400 transition-colors duration-300">Post A Blog</a>
                     <a href="{{ route('myBlogs') }}" class="bg-black p-1 rounded-md text-white hover:bg-black/30 hover:text-yellow-400 transition-colors duration-300 ">My Blogs</a>
                     <form action="{{ route('auth.destroy') }}" method="POST">
                         @csrf

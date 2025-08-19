@@ -54,6 +54,7 @@ class PostBlogController extends Controller
         if (!empty($data['categories'])) {
             $post->categories()->attach($request->categories);
         }
+        
 
         return redirect('/');
 
