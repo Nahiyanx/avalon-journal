@@ -6,7 +6,13 @@
         </p>
     </div>
     <div class="font-bold self-start text-sm">
-        <h1>By {{$post->user->name}}</h1>
+        <p>
+            By 
+            <a href="{{ route('profile.show', $post->user) }}" 
+            class="hover:underline">
+            {{ $post->user->name }}
+            </a>
+        </p>
     </div> 
     <div class="self-start text-[15px] text-left pt-4">
         <p>

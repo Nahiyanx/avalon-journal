@@ -29,6 +29,7 @@
             <div class="space-x-6 font-bold">
                 <a href="/" class="hover:bg-black/30 hover:text-yellow-400 transition-colors duration-300 rounded p-1">Home</a>
                 <a href="/blogs" class="hover:bg-black/30 hover:text-yellow-400 transition-colors duration-300 rounded p-1">Blogs</a>
+                <a href="/users" class="hover:bg-black/30 hover:text-yellow-400 transition-colors duration-300 rounded p-1">Authors</a>
                 <a href="/about" class="hover:bg-black/30 hover:text-yellow-400 transition-colors duration-300 rounded p-1">About</a>
             </div>
             <div class="font-bold flex items-center space-x-2 text-xs">

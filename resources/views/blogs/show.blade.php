@@ -1,7 +1,13 @@
 <x-layout>
     <div class="max-w-2xl mx-auto p-6 bg-white/50 rounded-lg shadow-md">
         <h1 class="text-3xl font-bold mb-2">{{ $post->title }}</h1>
-        <p class="text-gray-600 mb-4">By {{ $post->user->name }}</p>
+        <p class="text-gray-600 mb-4">
+            By 
+            <a href="{{ route('profile.show', $post->user) }}" 
+            class="hover:underline">
+            {{ $post->user->name }}
+            </a>
+        </p>
 
         <!-- Static Categories -->
         <div class="mb-4">
@@ -18,7 +24,7 @@
         <div class="mt-6">
             <a href="{{ url()->previous() }}" class="text-blue-500 hover:underline">← Back</a>
         </div>
-        
+        <hr class="mt-6 border-t border-gray-500">
         <div class="mt-8 bg-black/20 p-2 rounded-lg">
             <h2 class="text-xl font-bold mb-4">Comments</h2>
             @foreach($post->comments as $comment)

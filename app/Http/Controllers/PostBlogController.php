@@ -123,7 +123,11 @@ class PostBlogController extends Controller
 
         $query = $request->input('query');
 
-        $posts = Post::where('title', 'like', '%' . $query . '%')
+        $posts = Post::with('user')
+                    ->where('title', 'like', '%' . $query . '%')
+                    ->orWhereHas('user', function ($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query . '%');
+                    })
                     ->latest()
                     ->cursorPaginate(4)
                     ->withQueryString();

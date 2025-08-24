@@ -8,6 +8,9 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostBlogController;
 use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\TableController;
+use App\Http\Controllers\TablesController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -41,6 +44,9 @@ Route::get('/myBlogs', function () {
 
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
 
-
+Route::get('users/{user}', [UserProfileController::class, 'show'])->name('profile.show');
+Route::get('/users', [UserProfileController::class, 'index'])->name('profile.index');
 
 Route::get('/about', [AboutPageController::class, 'index']);
+
+Route::get('/table', [TablesController::class, 'index'])->name('table');
