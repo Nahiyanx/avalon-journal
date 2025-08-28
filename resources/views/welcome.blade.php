@@ -32,6 +32,5 @@
         </div>
     </section>
     <section>
-        
     </section>
 </x-layout>

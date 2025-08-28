@@ -14,7 +14,8 @@ class UserProfileController extends Controller
     }
 
     public function show(User $user) {
-        $user->load('posts');
+        $user->load(['posts' => function ($query) { 
+            $query->latest(); }]);
         return view('users.show', compact('user'));
     }
 }

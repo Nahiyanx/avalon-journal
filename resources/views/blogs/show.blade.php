@@ -1,15 +1,19 @@
 <x-layout>
     <div class="max-w-2xl mx-auto p-6 bg-white/50 rounded-lg shadow-md">
         <h1 class="text-3xl font-bold mb-2">{{ $post->title }}</h1>
-        <p class="text-gray-600 mb-4">
+        <p class="text-gray-600">
             By 
             <a href="{{ route('profile.show', $post->user) }}" 
             class="hover:underline">
             {{ $post->user->name }}
             </a>
         </p>
-
-        <!-- Static Categories -->
+        <p class="text-gray-500 text-sm mb-4">
+            Published on
+            {{ $post->created_at->timezone('Asia/Dhaka')->format('F j, Y') }}
+            at
+            {{ $post->created_at->timezone('Asia/Dhaka')->format('g:i A') }}
+        </p>
         <div class="mb-4">
             @foreach ($post->categories as $category)
                 <a href="{{ route('categories.show', $category) }}" 
